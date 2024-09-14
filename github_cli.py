@@ -1,9 +1,6 @@
 import click
 
-from github_manager import (
-    get_user_events,
-    get_user_repositories
-)
+from github_manager import get_user_events, get_user_repositories
 
 
 @click.command()
