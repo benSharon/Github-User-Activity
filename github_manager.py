@@ -49,11 +49,11 @@ def get_user_repositories(username: str):
 def display_user_repositories(repo_list, username):
     if not repo_list:
         raise ValueError("Could not get repos\n")
-
-    print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of {username}:")
-    for repo in repo_list:
-        print(f"- {repo["name"]}")
-    print(f"\nNumber of repos: {len(repo_list)}\n")
+    else:
+        print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of {username}:")
+        for repo in repo_list:
+            print(f"- {repo["name"]}")
+        print(f"\nNumber of repos: {len(repo_list)}\n")
 
 
 def display_user_events(events_list, username):
