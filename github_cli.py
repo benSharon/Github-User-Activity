@@ -15,10 +15,8 @@ def cli(username, repo, events):
     Command-line tool for displaying GitHub user events and repositories
     """
     if repo:
-        click.echo(f"Displaying repositories for user {username}:")
         get_user_repositories(username)
     elif events:
-        click.echo(f"Displaying events for user {username}:")
         get_user_events(username)
 
 
