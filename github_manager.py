@@ -1,4 +1,3 @@
-import os
 import requests
 
 API_URL = "https://api.github.com"
@@ -8,12 +7,12 @@ TOKEN_FILE = "github_token.txt"
 def authenticate():
     # read token from github_token file
     with open(TOKEN_FILE, "r") as file:
-        TOKEN = file.read()
+        GITHUB_TOKEN = file.read()
 
-    if not TOKEN:
+    if not GITHUB_TOKEN:
         raise ValueError("Github PAT (personal access token) is missing.")
     return {
-        "Authorization": f"token {TOKEN}"
+        "Authorization": f"token {GITHUB_TOKEN}"
     }
 
 
