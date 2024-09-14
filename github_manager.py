@@ -1,5 +1,7 @@
 import requests
 
+from rich import print
+
 API_URL = "https://api.github.com"
 TOKEN_FILE = "github_token.txt"
 
@@ -10,7 +12,7 @@ def authenticate():
         GITHUB_TOKEN = file.read()
 
     if not GITHUB_TOKEN:
-        raise ValueError("Github PAT (personal access token) is missing.")
+        raise ValueError("Github PAT (personal access token) is missing")
     return {"Authorization": f"token {GITHUB_TOKEN}"}
 
 
@@ -22,12 +24,12 @@ def get_user_events(username: str):
     if response_events.status_code == 200:
         events = response_events.json()
         print(
-            f"\nStatus code {response_events.status_code}: {response_events.reason}\n"
+            f"\n[bold green]Status code {response_events.status_code}: {response_events.reason}\n[/bold green]"
         )
         display_user_events(events, username)
     else:
         return print(
-            f"\nStatus code {response_events.status_code} is {response_events.reason}\n"
+            f"[bold red]\nStatus code {response_events.status_code} is {response_events.reason}\n[bold red]"
         )
 
 
@@ -38,11 +40,11 @@ def get_user_repositories(username: str):
 
     if response_repos.status_code == 200:
         repository = response_repos.json()
-        print(f"\nStatus code {response_repos.status_code}: {response_repos.reason}\n")
+        print(f"[bold green]\nStatus code {response_repos.status_code}: {response_repos.reason}\n[/bold green]")
         display_user_repositories(repository, username)
     else:
         return print(
-            f"\nStatus code {response_repos.status_code} is {response_repos.reason}\n"
+            f"[bold red]\nStatus code {response_repos.status_code} is {response_repos.reason}\n[/bold red]"
         )
 
 
@@ -50,7 +52,7 @@ def display_user_repositories(repo_list, username):
     if not repo_list:
         raise ValueError("Could not get repos\n")
     else:
-        print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of {username}:")
+        print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of [bold white]{username}[/bold white]:")
         for repo in repo_list:
             print(f"- {repo["name"]}")
         print(f"\nNumber of repos: {len(repo_list)}\n")
@@ -79,4 +81,7 @@ def display_user_events(events_list, username):
                     print(
                         f"- {event['payload']['ref_type']} created in {event['repo']['name']} at {event['created_at']}"
                     )
+
+            if event["type"] == "WatchEvent":
+                print(f"- Starred {event['repo']['name']} at {event['created_at']}")
         print()
