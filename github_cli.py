@@ -22,9 +22,5 @@ def cli(username, repo, events):
         get_user_events(username)
 
 
-def main():
-    cli()
-
-
 if __name__ == "__main__":
-    main()
+    cli()

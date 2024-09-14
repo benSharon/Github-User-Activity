@@ -1,34 +1,41 @@
+import os
 import requests
 
 API_URL = "https://api.github.com"
+TOKEN_FILE = "github_token.txt"
 
 
-status_codes = {
-    200: "OK",
-    304: "Not modified",
-    403: "Forbidden",
-    503: "Service unavailable"
-}
+def authenticate():
+    # read token from github_token file
+    with open(TOKEN_FILE, "r") as file:
+        TOKEN = file.read()
+
+    if not TOKEN:
+        raise ValueError("Github PAT (personal access token) is missing.")
+    return {
+        "Authorization": f"token {TOKEN}"
+    }
 
 
 def get_user_events(username: str):
+    BASE_URL = f"{API_URL}/users/{username}/events"
     pass
 
 
 def get_user_repositories(username: str):
     BASE_URL = f"{API_URL}/users/{username}/repos"
-    response = requests.get(BASE_URL)
+    headers = authenticate()
+    response_repos = requests.get(BASE_URL, headers=headers)
 
-    if response.status_code == 200:
-        repository = response.json()
-        print(f"Status code {response.status_code} is {status_codes[response.status_code]}")
+    if response_repos.status_code == 200:
+        repository = response_repos.json()
+        print(f"Status code {response_repos.status_code}: {response_repos.reason}")
         display_user_repositories(repository, username)
     else:
-        return print(f"Status code {response.status_code} is {status_codes[response.status_code]}")
+        return print(f"Status code {response_repos.status_code} is {response_repos.reason}")
 
 
 def display_user_repositories(repo_list, username):
-    get_user_repositories(username)
     if repo_list:
         print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of {username}:")
         for repo in repo_list:
