@@ -1,5 +1,4 @@
 import requests
-
 from rich import print
 
 API_URL = "https://api.github.com"
@@ -40,7 +39,9 @@ def get_user_repositories(username: str):
 
     if response_repos.status_code == 200:
         repository = response_repos.json()
-        print(f"[bold green]\nStatus code {response_repos.status_code}: {response_repos.reason}\n[/bold green]")
+        print(
+            f"[bold green]\nStatus code {response_repos.status_code}: {response_repos.reason}\n[/bold green]"
+        )
         display_user_repositories(repository, username)
     else:
         return print(
@@ -52,7 +53,9 @@ def display_user_repositories(repo_list, username):
     if not repo_list:
         raise ValueError("Could not get repos\n")
     else:
-        print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of [bold white]{username}[/bold white]:")
+        print(
+            f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of [bold white]{username}[/bold white]:"
+        )
         for repo in repo_list:
             print(f"- {repo["name"]}")
         print(f"\nNumber of repos: {len(repo_list)}\n")
