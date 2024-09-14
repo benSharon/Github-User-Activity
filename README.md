@@ -94,4 +94,4 @@ This project is licensed under the MIT License.
 
 
 ## Project URL
-[https://roadmap.sh/projects/Github-User-Activity](https://roadmap.sh/projects/Github-User-Activity)
+https://roadmap.sh/projects/github-user-activity
