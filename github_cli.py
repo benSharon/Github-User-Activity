@@ -11,10 +11,15 @@ def cli(username, repo, events):
     """
     Command-line tool for displaying GitHub user events and repositories
     """
-    if repo:
-        get_user_repositories(username)
-    elif events:
-        get_user_events(username)
+    try:
+        if repo:
+            get_user_repositories(username)
+        elif events:
+            get_user_events(username)
+    except ValueError as ve:
+        print(ve)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 
 if __name__ == "__main__":

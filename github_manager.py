@@ -47,17 +47,19 @@ def get_user_repositories(username: str):
 
 
 def display_user_repositories(repo_list, username):
-    if repo_list:
-        print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of {username}:")
-        for repo in repo_list:
-            print(f"- {repo["name"]}")
-        print(f"\nNumber of repos: {len(repo_list)}\n")
-    else:
-        raise ValueError("Could not get repos.")
+    if not repo_list:
+        raise ValueError("Could not get repos\n")
+
+    print(f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of {username}:")
+    for repo in repo_list:
+        print(f"- {repo["name"]}")
+    print(f"\nNumber of repos: {len(repo_list)}\n")
 
 
 def display_user_events(events_list, username):
-    if events_list:
+    if not events_list:
+        raise ValueError("Could not get events\n")
+    else:
         print(f"Event{'s' if len(events_list) > 1 else ''} of {username}:")
 
         for event in events_list:
@@ -78,5 +80,3 @@ def display_user_events(events_list, username):
                         f"- {event['payload']['ref_type']} created in {event['repo']['name']} at {event['created_at']}"
                     )
         print()
-    else:
-        raise ValueError("Could not get events.")
