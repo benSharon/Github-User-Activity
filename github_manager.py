@@ -11,9 +11,7 @@ def authenticate():
 
     if not GITHUB_TOKEN:
         raise ValueError("Github PAT (personal access token) is missing.")
-    return {
-        "Authorization": f"token {GITHUB_TOKEN}"
-    }
+    return {"Authorization": f"token {GITHUB_TOKEN}"}
 
 
 def get_user_events(username: str):
@@ -23,10 +21,14 @@ def get_user_events(username: str):
 
     if response_events.status_code == 200:
         events = response_events.json()
-        print(f"\nStatus code {response_events.status_code}: {response_events.reason}\n")
+        print(
+            f"\nStatus code {response_events.status_code}: {response_events.reason}\n"
+        )
         display_user_events(events, username)
     else:
-        return print(f"\nStatus code {response_events.status_code} is {response_events.reason}\n")
+        return print(
+            f"\nStatus code {response_events.status_code} is {response_events.reason}\n"
+        )
 
 
 def get_user_repositories(username: str):
@@ -39,7 +41,9 @@ def get_user_repositories(username: str):
         print(f"\nStatus code {response_repos.status_code}: {response_repos.reason}\n")
         display_user_repositories(repository, username)
     else:
-        return print(f"\nStatus code {response_repos.status_code} is {response_repos.reason}\n")
+        return print(
+            f"\nStatus code {response_repos.status_code} is {response_repos.reason}\n"
+        )
 
 
 def display_user_repositories(repo_list, username):
@@ -49,7 +53,7 @@ def display_user_repositories(repo_list, username):
             print(f"- {repo["name"]}")
         print(f"\nNumber of repos: {len(repo_list)}\n")
     else:
-        print(f"Failed to get repos.")
+        raise ValueError("Could not get repos.")
 
 
 def display_user_events(events_list, username):
@@ -59,15 +63,20 @@ def display_user_events(events_list, username):
         for event in events_list:
             if event["type"] == "PushEvent":
                 commit_count = event["payload"]["size"]
-                print(f"- Pushed {commit_count} commit{'s' if commit_count > 1 else ''} to {event['repo']['name']} at"
-                      f" {event['created_at']}")
+                print(
+                    f"- Pushed {commit_count} commit{'s' if commit_count > 1 else ''} to {event['repo']['name']} at"
+                    f" {event['created_at']}"
+                )
 
             if event["type"] == "CreateEvent":
-                if event['payload']['ref_type'] == "repository":
-                    print(f"- {event['repo']['name']} {event['payload']['ref_type']} has been created at {event['created_at']}")
+                if event["payload"]["ref_type"] == "repository":
+                    print(
+                        f"- {event['repo']['name']} {event['payload']['ref_type']} has been created at {event['created_at']}"
+                    )
                 else:
-                    print(f"- {event['payload']['ref_type']} created in {event['repo']['name']} at {event['created_at']}")
-
+                    print(
+                        f"- {event['payload']['ref_type']} created in {event['repo']['name']} at {event['created_at']}"
+                    )
         print()
     else:
-        print(f"Failed to get repos.")
+        raise ValueError("Could not get events.")
