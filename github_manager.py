@@ -1,5 +1,5 @@
 import requests
-from rich import print
+from rich import print as rich_print
 
 API_URL = "https://api.github.com"
 TOKEN_FILE = "github_token.txt"
@@ -21,13 +21,15 @@ def get_user_events(username: str):
     response_events = requests.get(BASE_URL, headers=headers)
 
     if response_events.status_code == 200:
-        events = response_events.json()
-        print(
+        # a visual confirmation that we got a 200 response
+        rich_print(
             f"\n[bold green]Status code {response_events.status_code}: {response_events.reason}\n[/bold green]"
         )
+        events = response_events.json()
         display_user_events(events, username)
     else:
-        return print(
+        # To know which non 200 status code hit us
+        return rich_print(
             f"[bold red]\nStatus code {response_events.status_code} is {response_events.reason}\n[bold red]"
         )
 
@@ -38,13 +40,15 @@ def get_user_repositories(username: str):
     response_repos = requests.get(BASE_URL, headers=headers)
 
     if response_repos.status_code == 200:
-        repository = response_repos.json()
-        print(
+        # a visual confirmation that we got a 200 response
+        rich_print(
             f"[bold green]\nStatus code {response_repos.status_code}: {response_repos.reason}\n[/bold green]"
         )
+        repository = response_repos.json()
         display_user_repositories(repository, username)
     else:
-        return print(
+        # To know which non 200 status code hit us
+        return rich_print(
             f"[bold red]\nStatus code {response_repos.status_code} is {response_repos.reason}\n[/bold red]"
         )
 
