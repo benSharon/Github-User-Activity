@@ -57,7 +57,7 @@ def display_user_repositories(repo_list, username):
     if not repo_list:
         raise ValueError("Could not get repos\n")
     else:
-        print(
+        rich_print(
             f"Repositor{'ies' if len(repo_list) > 1 else 'y'} of [bold white]{username}[/bold white]:"
         )
         for repo in repo_list:
