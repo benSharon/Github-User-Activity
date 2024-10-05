@@ -28,10 +28,14 @@ def get_user_events(username: str):
         events = response_events.json()
         display_user_events(events, username)
     else:
+        if response_events.status_code == 401:
+            return rich_print(
+                f"[bold red]\nStatus code {response_events.status_code} is {response_events.reason}\n[bold red]"
+                f"A new GitHub token will need to be generated from your account.\n"
+            )
         # To know which non 200 status code hit us
         return rich_print(
-            f"[bold red]\nStatus code {response_events.status_code} is {response_events.reason}\n[bold red]"
-        )
+            f"[bold red]\nStatus code {response_events.status_code} is {response_events.reason}\n[bold red]")
 
 
 def get_user_repositories(username: str):
@@ -47,10 +51,14 @@ def get_user_repositories(username: str):
         repository = response_repos.json()
         display_user_repositories(repository, username)
     else:
+        if response_repos.status_code == 401:
+            return rich_print(
+                f"[bold red]\nStatus code {response_repos.status_code} is {response_repos.reason}\n[bold red]"
+                f"A new GitHub token will need to be generated from your account.\n"
+            )
         # To know which non 200 status code hit us
         return rich_print(
-            f"[bold red]\nStatus code {response_repos.status_code} is {response_repos.reason}\n[/bold red]"
-        )
+            f"[bold red]\nStatus code {response_repos.status_code} is {response_repos.reason}\n[bold red]")
 
 
 def display_user_repositories(repo_list, username):
